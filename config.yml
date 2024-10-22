@@ -1,0 +1,67 @@
+# Human-centered compliance configuration
+
+questions:
+  primary:
+    public_access:
+      description: "Is there a publicly accessible website?"
+      type: bool
+      options:
+        - true
+        - false
+      secondary:
+        - domain
+      tests:
+        - check_protocol  # Directly matching Python function names
+        - check_reachability
+      controls:
+        NIST_800_53:
+          - AC-17
+          - SC-12
+        ISO_27001:
+          - A.13.1.1
+
+  secondary:
+    domain:
+      description: "What is the domain name?"
+      type: text
+
+tests:
+  check_protocol:
+    description: "Check the protocol used by the domain (http/https)"
+    pass:
+      - https
+    fail:
+      - http
+      - smb
+
+  check_reachability:
+    description: "Check if the domain is reachable"
+    pass:
+      - true
+    fail:
+      - false
+
+frameworks:
+  NIST_800_53:
+    description: "NIST Special Publication 800-53"
+    controls:
+      AC-17:
+        type: "Access Control"
+        description: "Remote Access"
+      SC-12:
+        type: "Cryptographic Key Management"
+        description: "Cryptographic Key Establishment and Management"
+
+  ISO_27001:
+    description: "ISO/IEC 27001:2013 Information Security Management"
+    controls:
+      A.13.1.1:
+        type: "Network Control"
+        description: "Network security controls"
+
+  FedRAMP:
+    description: "FedRAMP Provisional Authority to Operate (P-ATO)"
+
+
+report:
+    paperwork: true

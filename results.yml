@@ -1,0 +1,11 @@
+controls_passed:
+- AC-17
+- SC-12
+question: public_access
+tests:
+  check_protocol:
+    result: http
+    status: fail
+  check_reachability:
+    result: true
+    status: pass
