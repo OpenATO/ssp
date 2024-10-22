@@ -1,7 +1,7 @@
 import urllib.request
 import os
 
-site = os.environ.get("SITE", "https://google.com")
+site = os.environ.get("SITE", "http://civicactions.com")
 
 
 def test_site_up():
