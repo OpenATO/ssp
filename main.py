@@ -1,3 +1,5 @@
+import os
+from dotenv import load_dotenv
 import sys
 from tests import check_protocol, check_reachability  # Explicit import
 from utils import load_config, save_results
@@ -8,12 +10,13 @@ TEST_FUNCTIONS = {
     "check_reachability": check_reachability,
 }
 
+
 def run_tests_for_question(question, answers):
     """Run tests based on the configuration for a given question."""
     config = load_config()
     question_config = config["questions"]["primary"][question]
 
-    results = {"question": question, "tests": {}, "controls_passed": []}
+    results = {"domain": DOMAIN, "question": question, "tests": {}, "controls_passed": []}
 
     # Execute each test listed in the question config
     for test_name in question_config["tests"]:
@@ -41,11 +44,15 @@ def run_tests_for_question(question, answers):
     print(f"Results for {question}:")
     print(results)
 
+
 if __name__ == "__main__":
     if len(sys.argv) < 2:
         print("Usage: poetry run python main.py <question>")
         sys.exit(1)
 
+    load_dotenv()
+    DOMAIN = os.getenv('DOMAIN', "example.com")
+
     question = sys.argv[1]
-    answers = {"domain": "example.com"}  # Mock user input
+    answers = {"domain": DOMAIN}  # Mock user input
     run_tests_for_question(question, answers)
